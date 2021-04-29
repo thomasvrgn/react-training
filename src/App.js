@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useContext, useEffect } from 'react';
+import { ThemeProvider, ThemeContext } from './context/Theme';
+import { Displayer } from './Displayer';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const themes = {
+  dark: {
+    button: 'text-white bg-gray-800'
+  },
+  light: {
+    button: 'text-gray-800 bg-gray-100'
+  }
 }
 
-export default App;
+export function App() {
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+  return (
+   <div className="container m-8 flex flex-col w-56 space-y-4">
+     <ThemeProvider value={[theme, setTheme]}>
+      <Button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+        Changer le thème
+      </Button>
+      <Button onClick={() => {
+        localStorage.removeItem('theme')
+        setTheme('light');
+      }}>
+        Supprimer les données
+      </Button>
+      <Displayer />
+    </ThemeProvider>
+   </div>
+  )
+}
+
+const Button = ({ onClick, children }) => {
+  const [theme] = useContext(ThemeContext);
+  return (
+    <button 
+      onClick={onClick} 
+      className={'py-2 px-4 rounded-lg font-medium shadow ' + themes[theme].button}
+    >
+      {children}
+    </button>
+  );
+}
