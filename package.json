@@ -1,6 +1,7 @@
 {
   "name": "react-started",
   "version": "0.1.0",
+  "homepage": "http://thomasvergne.github.io/react-training",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.2",
@@ -8,6 +9,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "^9.8.6",
+    "gh-pages": "^3.1.0",
     "postcss": "^7.0.35",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -19,7 +21,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
